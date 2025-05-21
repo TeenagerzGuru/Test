@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio Hafiz Ismail</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+    :root {
+      --primary: #3533cd;
+      --secondary: #00e5ff;
+      --accent: #74b9ff;
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --text-light: #ffffff;
+      --header-font: 'Press Start 2P', cursive;
+      --body-font: 'VT323', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--body-font);
+    }
+
+    body {
+      line-height: 1.6;
+      background: linear-gradient(180deg, #3533cd 0%, #000000 100%);
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
+    h1, h2, h3, .nav-links a {
+      font-family: var(--header-font);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.4;
+    }
+
+    .header {
+      background: transparent;
+      padding: 1rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-container h1 {
+      font-size: 1.2rem;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      transition: color 0.3s ease;
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    .spline-game-section {
+      height: 70vh;
+      position: relative;
+      margin-top: 80px;
+    }
+
+    .spline-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Reusable Card Styles */
+    .experience-card, .education-card, .certificate-card {
+      display: flex;
+      gap: 2rem;
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      max-width: 1000px;
+      margin: 3rem auto;
+    }
+
+    .education-content, .experience-content {
+      flex: 1.5;
+    }
+
+    .education-image, .experience-image, .certificate-image {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .education-image:hover, .experience-image:hover, .certificate-image:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .education-image img, .experience-image img, .certificate-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      object-fit: cover;
+      max-height: 350px;
+      transition: transform 0.5s ease;
+    }
+
+    .education-image:hover img, .experience-image:hover img, .certificate-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .education-image::after, .experience-image::after, .certificate-image::after {
+      content: 'Click to View';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--text-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-family: var(--header-font);
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .education-image:hover::after {
+      background: rgba(0, 229, 255, 0.7);
+      opacity: 1;
+    }
+
+    .experience-image:hover::after {
+      background: rgba(53, 51, 205, 0.7);
+      opacity: 1;
+    }
+
+    .certificate-image:hover::after {
+      background: rgba(128, 128, 128, 0.7);
+      opacity: 1;
+    }
+
+    .certificate-item h3, .education-item h3 {
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .experience-card, .education-card {
+        flex-direction: column;
+        padding: 2rem;
+      }
+
+      .education-image img, .experience-image img, .certificate-image img {
+        max-height: 250px;
+      }
+      
+      .nav-container h1 {
+        font-size: 0.9rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      .nav-links a {
+        font-size: 0.6rem;
+      }
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 80px 2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('BG Profile Picture.png') center/cover no-repeat;
+      color: var(--text-light);
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-shadow: 3px 3px 0px rgba(0,0,0,0.9);
+      line-height: 1.4;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+    }
+
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    h2 {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+      font-size: 1.8rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 50%;
+      height: 3px;
+      background: var(--secondary);
+    }
+
+    .project-button {
+      background: var(--secondary);
+      color: var(--text-light);
+      padding: 1rem 2rem;
+      border-radius: 0px;
+      text-decoration: none;
+      border: 3px solid #000;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
+      font-family: var(--header-font);
+      font-size: 0.9rem;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+    }
+
+    .project-button:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 6px 6px 0px rgba(0,0,0,0.8);
+    }
+
+    .project-button:active {
+      transform: translateY(2px);
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+    }
+
+    /* About section text alignment */
+    .about-text {
+      text-align: center;
+      margin: 2rem 0;
+      line-height: 1.8;
+      font-size: 1.4rem;
+    }
+
+    .about-text p {
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background: #000;
+      color: var(--text-light);
+      padding: 2rem;
+      text-align: center;
+      font-family: var(--body-font);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: transform 0.3s ease;
+      font-family: var(--header-font);
+      font-size: 0.8rem;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-5px);
+      color: var(--secondary);
+    }
+
+    .social-links svg {
+      margin-right: 0.5rem;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Game-style notification */
+    .game-notification {
+      text-align: center; 
+      color: var(--text-light); 
+      padding: 1rem;
+      background: var(--primary);
+      font-family: var(--header-font);
+      font-size: 0.8rem;
+      border: 2px solid black;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav-container">
+      <h1>HAFIZ ISMAIL</h1>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#game">Game</a>
+        <a href="#services">Experiences</a>
+        <a href="#education">Education</a>
+        <a href="#certificate">Certificates</a>
+        <a href="#about">About</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Spline Game Section -->
+    <section id="game" class="spline-game-section">
+      <div class="spline-container">
+        <iframe src='https://my.spline.design/minihomeconditionallogiccopy-1TQXRzEURB3K3CtJoR7xV7XJ/' frameborder='0' width='100%' height='100%'></iframe>
+      </div>
+      <p class="game-notification">Hope you enjoy the game!</p>
+    </section>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>GAME SECURITY TO BE</h1>
+        <br>
+        <h1>GAME TECH WILL POWER-UPS <br> MY JOURNEY</h1>
+        <p>Welcome! Explore my journey in development.</p>
+        <a href="Real_Selected Project.html" class="project-button">SELECTED PROJECT</a>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="services" class="section">
+      <h2>My Experiences</h2>
+      <a href="Company.html" class="experience-link" id="experienceLink">
+        <div class="experience-card">
+          <div class="experience-image">
+            <img src="Company-Logo.png" alt="PS Pipeline" id="experienceImage">
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+      <h2>Education</h2>
+      <a href="Education.html" class="education-link" id="educationLink">
+        <div class="education-card">
+          <div class="education-image">
+            <img src="Education-Logo.png" alt="Education Logo" id="educationImage">
+          </div>
+        </div>
+      </a>
+    </section>
+
+   <!-- Certificate Section -->
+    <section id="certificate" class="section">
+      <h2>Certificates</h2>
+      <a href="B1_Cert.html" class="certificate-link" id="certificateLink">
+        <div class="certificate-card">
+          <div class="certificate-image">
+            <img src="Certificate-Logo.png" alt="Certificate Logo" id="certificateImage">
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+      <h2>About Me</h2>
+      <div class="about-text">
+        <p>Hi, I'm Apiz from Semenyih, Selangor, currently pursuing a Bachelor's in Game Technology. My ultimate dream is to build a career in Game Security, 
+          where I can combine my passion for gaming with a strong commitment to protecting digital worlds.</p>
+        <p>Before diving into IT, I spent 6 years as a Wilayah Persekutuan's state cyclist — a journey that shaped my background and ethics. 
+          The pandemic pushed me to shift gears, and that’s when I discovered my true calling: securing games from the inside out.</p>
+        <p>Now, I'm on a mission to become part of the next generation of game security — ensuring fair play, integrity, and protection in the world of gaming.</p>
+      </div>
+      <div class="about-image">
+        <img src="About-Me.png" alt="About Me" style="width: 100%">
+      </div>
+      <div class="about-image">
+        <img src="Hafiz_Profile.jpg" alt="About Me" style="width: 100%">
+      </div>
+      
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Hafiz Ismail. All rights reserved.</p>
+    <div class="social-links">
+      <a href="mailto:hafismail17@gmail.com">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        Email Me
+      </a>
+      <a href="http://linkedin.com/in/hafizsierota" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // Add pulse on click
+      function setupPulseAnimation(linkId, imageId) {
+        const link = document.getElementById(linkId);
+        const image = document.getElementById(imageId);
+
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          image.classList.add('pulse');
+          setTimeout(() => {
+            window.location.href = this.getAttribute('href');
+          }, 500);
+        });
+
+        image.addEventListener('animationend', () => {
+          image.classList.remove('pulse');
+        });
+      }
+
+      setupPulseAnimation('experienceLink', 'experienceImage');
+      setupPulseAnimation('educationLink', 'educationImage');
+      setupPulseAnimation('certificateLink', 'certificateImage');
+      
+      // Add simple click sound effect
+      function addClickSound() {
+        const clickSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAB8AB0A');
+        
+        document.querySelectorAll('a, .project-button').forEach(element => {
+          element.addEventListener('click', () => {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => {});
+          });
+        });
+      }
+      
+      // Try to add sound if browser supports it
+      try {
+        addClickSound();
+      } catch (e) {
+        console.log('Sound not supported in this browser');
+      }
+    });
+  </script>
+</body>
+</html>
